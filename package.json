@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "advlib-identifier": ">=0.1.0",
+    "protobufjs": "^6.10.1",
     "raddec": ">=0.2.7",
     "ws": "^7.3.1"
   },
