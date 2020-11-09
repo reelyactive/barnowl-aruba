@@ -4,6 +4,40 @@ barnowl-aruba
 Interface Aruba gateways with [barnowl](https://github.com/reelyactive/barnowl) open source software.  We believe in an open Internet of Things.
 
 
+Installation
+------------
+
+    npm install barnowl-aruba
+
+
+Hello barnowl-aruba!
+--------------------
+
+```javascript
+const BarnowlAruba = require('barnowl-aruba');
+
+let barnowl = new BarnowlAruba();
+
+barnowl.addListener(BarnowlAruba.TestListener); // Not yet fully implemented...
+
+barnowl.on('raddec', function(raddec) {
+  console.log(raddec);
+});
+```
+
+
+Supported Listener Interfaces
+-----------------------------
+
+The following listener interfaces are supported.
+
+### Websocket
+
+```javascript
+barnowl.addListener(BarnowlAruba.WsListener, { port: 3001 });
+```
+
+
 License
 -------
 
