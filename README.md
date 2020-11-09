@@ -38,6 +38,36 @@ barnowl.addListener(BarnowlAruba.WsListener, { port: 3001 });
 ```
 
 
+Aruba IoT Transport Profile Configuration
+-----------------------------------------
+
+The following IoT Transport Profile options should be configured on the Aruba AP.
+
+| Config Option     | Value                           |
+|:------------------|:--------------------------------|
+| endpointType      | telemetry-websocket             |
+| endpointURL       | ws://xxx.xxx.xxx.xxx:3001/aruba |
+| endpointToken     | token _(cannot be left blank)_  |
+| payloadContent    | _(TBD)_                         |
+| transportInterval | 1 _(seconds)_                   |
+| rssiReporting     | average                         |
+
+For example, this can be achieved by SSHing into the AP and executing the following commands:
+- `# configure terminal`
+- `(config) # iot transportProfile test`
+- `(IoT Transport Profile "test") # endpointType telemetry-websocket`
+- `(IoT Transport Profile "test") # endpointURL ws://xxx.xxx.xxx.xxx:3001/aruba`
+- `(IoT Transport Profile "test") # endpointToken token`
+- `(IoT Transport Profile "test") # payloadContent all`
+- `(IoT Transport Profile "test") # transportInterval 1`
+- `(IoT Transport Profile "test") # rssiReporting average`
+- `(IoT Transport Profile "test") # end`
+- `# commit apply`
+
+The configuration can be validated with the command:
+- `# show iot transportProfile test`
+
+
 License
 -------
 
