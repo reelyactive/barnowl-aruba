@@ -45,6 +45,7 @@ The following IoT Transport Profile options should be configured on the Aruba AP
 
 | Config Option     | Value                           |
 |:------------------|:--------------------------------|
+| bleDataForwarding | (TRUE)                          |
 | endpointType      | telemetry-websocket             |
 | endpointURL       | ws://xxx.xxx.xxx.xxx:3001/aruba |
 | endpointToken     | token _(cannot be left blank)_  |
@@ -55,6 +56,7 @@ The following IoT Transport Profile options should be configured on the Aruba AP
 For example, this can be achieved by SSHing into the AP and executing the following commands:
 - `# configure terminal`
 - `(config) # iot transportProfile test`
+- `(IoT Transport Profile "test") # bleDataForwarding`
 - `(IoT Transport Profile "test") # endpointType telemetry-websocket`
 - `(IoT Transport Profile "test") # endpointURL ws://xxx.xxx.xxx.xxx:3001/aruba`
 - `(IoT Transport Profile "test") # endpointToken token`
