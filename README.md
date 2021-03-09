@@ -49,7 +49,7 @@ The following IoT Transport Profile options should be configured on the Aruba AP
 | endpointType      | telemetry-websocket             |
 | endpointURL       | ws://xxx.xxx.xxx.xxx:3001/aruba |
 | endpointToken     | token _(cannot be left blank)_  |
-| payloadContent    | _(TBD)_                         |
+| payloadContent    | all                             |
 | transportInterval | 1 _(seconds)_                   |
 | rssiReporting     | average                         |
 
