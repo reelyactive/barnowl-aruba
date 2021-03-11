@@ -10,6 +10,16 @@ Installation
     npm install barnowl-aruba
 
 
+Quick Start
+-----------
+
+Clone this repository, install package dependencies with `npm install`, and then from the root folder run at any time:
+
+    npm start
+
+__barnowl-aruba__ will indiscriminately accept WebSocket clients and their data on localhost:3001/aruba and print any processed [raddec](https://github.com/reelyactive/raddec) data to the console.
+
+
 Hello barnowl-aruba!
 --------------------
 
@@ -18,7 +28,7 @@ const BarnowlAruba = require('barnowl-aruba');
 
 let barnowl = new BarnowlAruba();
 
-barnowl.addListener(BarnowlAruba.TestListener); // Not yet fully implemented...
+barnowl.addListener(BarnowlAruba.TestListener);
 
 barnowl.on('raddec', function(raddec) {
   console.log(raddec);
@@ -35,6 +45,14 @@ The following listener interfaces are supported.
 
 ```javascript
 barnowl.addListener(BarnowlAruba.WsListener, { port: 3001 });
+```
+
+### Test
+
+Provides a steady stream of simulated TelemetryReports for testing purposes.
+
+```javascript
+barnowl.addListener(BarnowlAruba.TestListener, {});
 ```
 
 
