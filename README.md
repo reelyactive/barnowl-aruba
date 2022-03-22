@@ -126,6 +126,20 @@ The configuration can be validated with the command:
 - `# show iot transportProfile test`
 
 
+Contributing
+------------
+
+Discover [how to contribute](CONTRIBUTING.md) to this open source project which upholds a standard [code of conduct](CODE_OF_CONDUCT.md).
+
+
+Security
+--------
+
+Consult our [security policy](SECURITY.md) for best practices using this open source software and to report vulnerabilities.
+
+[![Known Vulnerabilities](https://snyk.io/test/github/reelyactive/barnowl-aruba/badge.svg)](https://snyk.io/test/github/reelyactive/barnowl-aruba)
+
+
 License
 -------
 
