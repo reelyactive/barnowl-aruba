@@ -8,6 +8,8 @@ __barnowl-aruba__ converts Bluetooth Low Energy decodings from [Aruba APs](https
 
 __barnowl-aruba__ is a lightweight [Node.js package](https://www.npmjs.com/package/barnowl-aruba) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.  It is typically run behind a [barnowl](https://github.com/reelyactive/barnowl) instance which is included in the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware suite.
 
+See also [aruba-iot-advlib-azure-function](https://github.com/reelyactive/aruba-iot-advlib-azure-function) which processes BLE and USB serial data in the cloud as a stateless Azure Function, based on the complementary Aruba Azure IoT interface.
+
 
 Installation
 ------------
@@ -22,7 +24,7 @@ Clone this repository, install package dependencies with `npm install`, and then
 
     npm start
 
-__barnowl-aruba__ will indiscriminately accept WebSocket clients and their data on localhost:3001/aruba and print any processed [raddec](https://github.com/reelyactive/raddec) data to the console.
+__barnowl-aruba__ will indiscriminately accept WebSocket clients and their data on localhost:3001/aruba and print any processed [raddec](https://github.com/reelyactive/raddec) data to the console.  See our [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) tutorial to forward data via WebSocket to __barnowl-aruba__ or to [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/).
 
 
 Hello barnowl-aruba!
