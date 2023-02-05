@@ -1,20 +1,20 @@
 barnowl-aruba
 =============
 
-__barnowl-aruba__ converts Bluetooth Low Energy decodings from [Aruba APs](https://www.reelyactive.com/pareto/anywhere/infrastructure/aruba/) into software-developer-friendly JSON: a real-time stream of [raddec](https://github.com/reelyactive/raddec/) objects which facilitate any and all of the following applications:
-- RFID: _what_ is present, based on the device identifier?
-- RTLS: _where_ is it relative to the receiving devices?
-- M2M: _how_ is its status, based on any payload included in the packet?
+__barnowl-aruba__ converts the decodings of _any_ ambient Bluetooth Low Energy devices by [Aruba Networks](https://www.minew.com/) access points into standard developer-friendly JSON that is vendor/technology/application-agnostic.
 
-__barnowl-aruba__ is a lightweight [Node.js package](https://www.npmjs.com/package/barnowl-aruba) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.  It is typically run behind a [barnowl](https://github.com/reelyactive/barnowl) instance which is included in the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware suite.
+![Overview of barnowl-aruba](https://reelyactive.github.io/barnowl-aruba/images/overview.png)
 
-See also [aruba-iot-advlib-azure-function](https://github.com/reelyactive/aruba-iot-advlib-azure-function) which processes BLE and USB serial data in the cloud as a stateless Azure Function, based on the complementary Aruba Azure IoT interface.
+__barnowl-aruba__ is a lightweight [Node.js package](https://www.npmjs.com/package/barnowl-aruba) that can run on resource-constrained edge devices as well as on powerful cloud servers and anything in between.  It is included in reelyActive's [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware suite, and can just as easily be run standalone behind a [barnowl](https://github.com/reelyactive/barnowl) instance, as detailed in the code examples below.
 
 
-Installation
-------------
+Getting Started
+---------------
 
-    npm install barnowl-aruba
+Follow our step-by-step [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) tutorial to get started with __barnowl-aruba__ or __Pareto Anywhere__.  Or visit our [Aruba Networks integration](https://www.reelyactive.com/pareto/anywhere/infrastructure/aruba/) page to learn about alternative configurations such as Aruba IoT Transport for Azure.
+
+Learn "owl" about the __raddec__ JSON data output:
+-  [reelyActive Developer's Cheatsheet](https://reelyactive.github.io/diy/cheatsheet/)
 
 
 Quick Start
@@ -24,56 +24,48 @@ Clone this repository, install package dependencies with `npm install`, and then
 
     npm start
 
-__barnowl-aruba__ will indiscriminately accept WebSocket clients and their data on localhost:3001/aruba and print any processed [raddec](https://github.com/reelyactive/raddec) data to the console.  See our [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) tutorial to forward data via WebSocket to __barnowl-aruba__ or to [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/).
+__barnowl-aruba__ will indiscriminately accept WebSocket clients and their data on localhost:3001/aruba and output (flattened) __raddec__ JSON to the console.
 
 
 Hello barnowl-aruba!
 --------------------
 
+Developing an application directly from __barnowl-aruba__?  Start by pasting the code below into a file called server.js:
+
 ```javascript
+const Barnowl = require('barnowl');
 const BarnowlAruba = require('barnowl-aruba');
 
-let barnowl = new BarnowlAruba();
+let barnowl = new Barnowl({ enableMixing: true });
 
-barnowl.addListener(BarnowlAruba.TestListener);
+barnowl.addListener(BarnowlAruba, {}, BarnowlAruba.TestListener, {});
 
-barnowl.on('raddec', function(raddec) {
+barnowl.on('raddec', (raddec) => {
   console.log(raddec);
+  // Trigger your application logic here
 });
 ```
 
-As output you should see a stream of [raddec](https://github.com/reelyactive/raddec/) objects similar to the following:
+From the same folder as the server.js file, install package dependencies with the commands `npm install barnowl-aruba` and `npm install barnowl`.  Then run the code with the command `node server.js` and observe the _simulated_ data stream of radio decodings (raddec objects) output to the console:
 
 ```javascript
 {
-  transmitterId: "ac233fa00000",
+  transmitterId: "fee150bada55",
   transmitterIdType: 2,
   rssiSignature: [
     {
-      receiverId: "a400baa400ba",
+      receiverId: "204c0fffffff",
       receiverIdType: 2,
-      numberOfDecodings: 1,
-      rssi: -70
+      rssi: -77,
+      numberOfDecodings: 1
     }
   ],
-  packets: [
-    '001e0000a03f23ac0201060303e1ff1016e1ffa10164187017fd5b8fa03f23ac'
-  ],
-  timestamp: 1547693457133
+  packets: [ '001a55daba50e1fe0201060303e1ff1216e1ffa1034affe7004500fa55daba50e1fe' ],
+  timestamp: 1645568542222
 }
 ```
 
-Regardless of the underlying RF protocol and hardware, the [raddec](https://github.com/reelyactive/raddec/) specifies _what_ (transmitterId) is _where_ (receiverId & rssi), as well as _how_ (packets) and _when_ (timestamp).
-
-
-Is that owl you can do?
------------------------
-
-While __barnowl-aruba__ may suffice standalone for simple real-time applications, its functionality can be greatly extended with the following software packages:
-- [advlib](https://github.com/reelyactive/advlib) to decode the individual packets from hexadecimal strings into JSON
-- [barnowl](https://github.com/reelyactive/barnowl) to combine parallel streams of RF decoding data in a technology-and-vendor-agnostic way
-
-These packages and more are bundled together as the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere) open source middleware suite, which includes several __barnowl-x__ listeners.
+See the [Supported Listener Interfaces](#supported-listener-interfaces) below to adapt the code to listen for your AP(s).
 
 
 Supported Listener Interfaces
@@ -84,7 +76,7 @@ The following listener interfaces are supported.
 ### Websocket
 
 ```javascript
-barnowl.addListener(BarnowlAruba.WsListener, { port: 3001 });
+barnowl.addListener(BarnowlAruba, {}, BarnowlAruba.WsListener, { port: 3001 });
 ```
 
 ### Test
@@ -92,7 +84,7 @@ barnowl.addListener(BarnowlAruba.WsListener, { port: 3001 });
 Provides a steady stream of simulated TelemetryReports for testing purposes.
 
 ```javascript
-barnowl.addListener(BarnowlAruba.TestListener, {});
+barnowl.addListener(BarnowlAruba, {}, BarnowlAruba.TestListener, {});
 ```
 
 
@@ -128,6 +120,16 @@ The configuration can be validated with the command:
 - `# show iot transportProfile test`
 
 
+Is that owl you can do?
+-----------------------
+
+While __barnowl-aruba__ may suffice standalone for simple real-time applications, its functionality can be greatly extended with the following software packages:
+- [advlib](https://github.com/reelyactive/advlib) to decode the individual packets from hexadecimal strings into JSON
+- [barnowl](https://github.com/reelyactive/barnowl) to combine parallel streams of RF decoding data in a technology-and-vendor-agnostic way
+
+These packages and more are bundled together as the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere) open source middleware suite, which includes a variety of __barnowl-x__ listeners, APIs and interactive web apps.
+
+
 Contributing
 ------------
 
@@ -147,7 +149,7 @@ License
 
 MIT License
 
-Copyright (c) 2020-2022 [reelyActive](https://www.reelyactive.com)
+Copyright (c) 2020-2023 [reelyActive](https://www.reelyactive.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
