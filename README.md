@@ -88,6 +88,18 @@ barnowl.addListener(BarnowlAruba, {}, BarnowlAruba.TestListener, {});
 ```
 
 
+Data vs. Telemetry
+------------------
+
+Aruba IoT Transport supports both periodic telemetry reports (ex: BLE Telemetry or Periodic Telemetry) and real-time packet reports (ex: BLE Data or Data Frames).  By default, __barnowl-aruba__ will accept only the real-time packet reports, as these include all the properties to form a [raddec](https://github.com/reelyactive/raddec) with `rssiSignature` and `packets`.
+
+To process periodic telemetry reports regardless, set the options as follows:
+
+    { decodingOptions: { acceptTelemetryReports: true } }
+
+In this case, the raddec data will be limited to the `transmitterId/Type` and `timestamp` properties.
+
+
 Aruba IoT Transport Profile Configuration
 -----------------------------------------
 
@@ -128,6 +140,12 @@ While __barnowl-aruba__ may suffice standalone for simple real-time applications
 - [barnowl](https://github.com/reelyactive/barnowl) to combine parallel streams of RF decoding data in a technology-and-vendor-agnostic way
 
 These packages and more are bundled together as the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere) open source middleware suite, which includes a variety of __barnowl-x__ listeners, APIs and interactive web apps.
+
+
+Project History
+---------------
+
+__barnowl-aruba__ v1.0.0 was released in August 2023 with an upgrade from the AOS 8.8 to the AOS 8.10 protobuf.  The latter includes the AP's Bluetooth MAC which is used as the `receiverId` property in place of the AP's WiFi MAC which was used in previous versions.
 
 
 Contributing
