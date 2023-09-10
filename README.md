@@ -1,7 +1,7 @@
 barnowl-aruba
 =============
 
-__barnowl-aruba__ converts the decodings of _any_ ambient Bluetooth Low Energy devices by [Aruba Networks](https://www.arubanetworks.com/) access points into standard developer-friendly JSON that is vendor/technology/application-agnostic.
+__barnowl-aruba__ converts the decodings of _any_ ambient Bluetooth Low Energy & EnOcean Alliance devices by [Aruba Networks](https://www.arubanetworks.com/) access points into standard developer-friendly JSON that is vendor/technology/application-agnostic.
 
 ![Overview of barnowl-aruba](https://reelyactive.github.io/barnowl-aruba/images/overview.png)
 
@@ -98,6 +98,17 @@ To process periodic telemetry reports regardless, set the options as follows:
     { decodingOptions: { acceptTelemetryReports: true } }
 
 In this case, the raddec data will be limited to the `transmitterId/Type` and `timestamp` properties.
+
+
+Supported Transport Services
+----------------------------
+
+__barnowl-aruba__ supports the following Transport Services:
+
+- BLE Data
+- BLE Telemetry (see Data vs. Telemetry above)
+- Serial Data
+  - EnOcean Serial Protocol (requires USB dongle)
 
 
 Aruba IoT Transport Profile Configuration
