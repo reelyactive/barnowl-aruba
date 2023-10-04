@@ -96,9 +96,9 @@ Each AP has two or more radio identifiers:
 - Bluetooth radio MAC
 - (optional) USB-connected radio identifier(s)
 
-To the extent possible, all BLE raddecs will use the Bluetooth radio MAC as the receiverId.  As the Bluetooth radio MAC is _not_ included in BLE Telemetry reports, it must be inferred from AP Health messages and, when available, BLE Data reports.
+To the extent possible, all BLE raddecs will use the Bluetooth radio MAC as the `receiverId` property.  As the Bluetooth radio MAC is _not_ included in BLE Telemetry reports, as of __barnowl-aruba__ v1.2.1, it is instead automatically inferred from AP Health messages and, when available, BLE Data reports.
 
-WiFi raddecs and USB-connected raddecs will use the IP radio MAC as receiverId.
+WiFi raddecs and USB-connected raddecs will use the IP radio MAC as the `receiverId` property.
 
 
 Data vs. Telemetry
