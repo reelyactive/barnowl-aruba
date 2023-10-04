@@ -93,11 +93,24 @@ Data vs. Telemetry
 
 Aruba IoT Transport supports both periodic telemetry reports (ex: BLE Telemetry or Periodic Telemetry) and real-time packet reports (ex: BLE Data or Data Frames).  By default, __barnowl-aruba__ will accept only the real-time packet reports, as these include all the properties to form a [raddec](https://github.com/reelyactive/raddec) with `rssiSignature` and `packets`.
 
-To process periodic telemetry reports regardless, set the options as follows:
+To process periodic telemetry reports regardless, set the listener options as follows:
 
     { decodingOptions: { acceptTelemetryReports: true } }
 
-In this case, the raddec data will be limited to the `transmitterId/Type` and `timestamp` properties.
+In this case, the raddec data will be limited to the `transmitterId/Type`, `rssiSignature` and `timestamp` properties.
+
+For the best RTLS (real-time location) performance from telemetry reports, the following BLE Telemetry Websocket options are recommended:
+- Reporting interval: __2__ seconds
+- RSSI reporting format: __Bulk__
+- Report devices that have had activity in the last __30__ seconds
+
+Note that frequent telemetry reporting may significantly increase network traffic: consider the use of Filters to limit reporting only to devices of interest.
+
+RSSI Bulk reporting provides a timestamped history of decodings which will be included in the raddec, provided they are not stale.  If required, adjust the staleness threshold by setting the listener options as follows:
+
+    { decodingOptions: { historyMilliseconds: 2000 } }
+
+The default is 2000ms which coincides with the recommended 2s reporting interval.
 
 
 Supported Transport Services
@@ -109,6 +122,7 @@ __barnowl-aruba__ supports the following Transport Services:
 - BLE Telemetry (see Data vs. Telemetry above)
 - Serial Data
   - EnOcean Serial Protocol (requires USB dongle)
+- WiFi Telemetry & RTLS
 
 
 Aruba IoT Transport Profile Configuration
