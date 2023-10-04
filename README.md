@@ -88,6 +88,19 @@ barnowl.addListener(BarnowlAruba, {}, BarnowlAruba.TestListener, {});
 ```
 
 
+Access Point Identification
+---------------------------
+
+Each AP has two or more radio identifiers:
+- IP radio MAC
+- Bluetooth radio MAC
+- (optional) USB-connected radio identifier(s)
+
+To the extent possible, all BLE raddecs will use the Bluetooth radio MAC as the receiverId.  As the Bluetooth radio MAC is _not_ included in BLE Telemetry reports, it must be inferred from AP Health messages and, when available, BLE Data reports.
+
+WiFi raddecs and USB-connected raddecs will use the IP radio MAC as receiverId.
+
+
 Data vs. Telemetry
 ------------------
 
