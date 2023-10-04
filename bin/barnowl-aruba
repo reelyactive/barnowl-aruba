@@ -2,9 +2,13 @@
 
 const BarnowlAruba = require('../lib/barnowlaruba.js');
 
+const DECODING_OPTIONS = { acceptTelemetryReports: true,
+                           historyMilliseconds: 2000 };
+const LISTENER_OPTIONS = { port: 3001, decodingOptions: DECODING_OPTIONS };
+
 let barnowl = new BarnowlAruba();
 
-barnowl.addListener(BarnowlAruba.WsListener, { port: 3001 });
+barnowl.addListener(BarnowlAruba.WsListener, LISTENER_OPTIONS);
 
 barnowl.on('raddec', function(raddec) {
   console.log(raddec.toFlattened());
