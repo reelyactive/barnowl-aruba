@@ -138,6 +138,81 @@ __barnowl-aruba__ supports the following Transport Services:
 - WiFi Telemetry & RTLS
 
 
+Creating Certificates for Secure WebSockets on Local Network
+------------------------------------------------------------
+
+In a development environment, it is common for __barnowl-aruba__ to run on the same local network as the Aruba AP.  In the case where transport uses secure WebSockets (wss://), __barnowl-aruba__ can use a self-signed certificate with the IP address of the computer on which it is running as SAN (Subject Alternative Name), in place of a fully-qualified domain name.  The Aruba AP(s) will use a CA certificate to establish the secure connection.
+
+The server certificate (for __barnowl-aruba__) and the CA certificate (for the AP) can be generated with OpenSSL using the following procedure:
+
+### Create a server.cnf file
+
+```
+[req]
+default_bits  = 2048
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+countryName = CA
+stateOrProvinceName = QC
+localityName = Montreal
+organizationName = reelyActive
+commonName = 192.168.1.123
+
+[req_ext]
+subjectAltName = @alt_names
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 192.168.1.123
+```
+
+Update the commonName and IP.1 fields with the IP address of the computer running __barnowl-aruba__.
+
+### Create a CA.cnf file
+
+```
+[ req ]
+prompt = no
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+C = CA
+ST = QC
+L = Montreal
+O = reelyActive
+OU = Develop
+CN = 192.168.1.123
+```
+
+Update the CN field with the IP address of the computer running __barnowl-aruba__.
+
+### Create the .pem files using OpenSSL
+
+First, generate a CA private key & certificate:
+
+    openssl req -nodes -new -x509 -keyout CA_key.pem -out CA_cert.pem -days 1825 -config CA.cnf
+
+Second, generate the web server's secret key & CSR:
+
+    openssl req -sha256 -nodes -newkey rsa:2048 -keyout server_key.pem -out server.csr -config server.cnf
+
+Third, create the certificate, signing it with its own certificate authority:
+
+    openssl x509 -req -days 398 -in server.csr -CA CA_cert.pem -CAkey CA_key.pem -CAcreateserial -out server_cert.pem -extensions req_ext -extfile server.cnf
+
+### Assign the certificates
+
+Configure __barnowl-aruba__ using the server_cert.pem and server_key.pem files.
+
+Upload the CA_cert.pem file to the AP (ex: via Central) and ensure it is assigned to IoT Transport (ex: Security - Certificate Usage - IoT CA Cert).
+
+
 Aruba IoT Transport Profile Configuration
 -----------------------------------------
 
