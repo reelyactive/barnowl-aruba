@@ -15,7 +15,8 @@
   },
   "main": "./lib/barnowlaruba.js",
   "scripts": {
-    "start": "node bin/barnowl-aruba"
+    "start": "node bin/barnowl-aruba",
+    "secure": "node bin/barnowl-aruba-secure"
   },
   "repository": {
     "type": "git",

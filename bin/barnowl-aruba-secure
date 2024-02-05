@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const BarnowlAruba = require('../lib/barnowlaruba.js');
+
+const server = https.createServer({
+  cert: fs.readFileSync(path.resolve('config/certificate.pem')),
+  key: fs.readFileSync(path.resolve('config/key.pem'))
+});
+
+const DECODING_OPTIONS = { acceptTelemetryReports: true,
+                           historyMilliseconds: 2000 };
+const LISTENER_OPTIONS = { server: server, decodingOptions: DECODING_OPTIONS };
+
+let barnowl = new BarnowlAruba();
+
+barnowl.addListener(BarnowlAruba.WsListener, LISTENER_OPTIONS);
+
+barnowl.on('raddec', function(raddec) {
+  console.log(raddec.toFlattened());
+});
+
+server.listen(3001);
