@@ -5,10 +5,19 @@ const fs = require('fs');
 const path = require('path');
 const BarnowlAruba = require('../lib/barnowlaruba.js');
 
-const server = https.createServer({
-  cert: fs.readFileSync(path.resolve('config/certificate.pem')),
-  key: fs.readFileSync(path.resolve('config/key.pem'))
-});
+// ----- Exit gracefully if the config files aren't found -----
+let server;
+try {
+  server = https.createServer({
+    cert: fs.readFileSync(path.resolve('config/certificate.pem')),
+    key: fs.readFileSync(path.resolve('config/key.pem'))
+  });
+}
+catch(err) {
+  console.log('This script requires a config/certificate.pem and a config/key.pem file to create the HTTPS server for secure WebSockets.');
+  return console.log('Consult the barnowl-aruba documentation and then run this script again.');
+}
+// ------------------------------------------------------------
 
 const DECODING_OPTIONS = { acceptTelemetryReports: true,
                            historyMilliseconds: 2000 };
