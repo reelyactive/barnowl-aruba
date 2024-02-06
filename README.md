@@ -24,7 +24,9 @@ Clone this repository, install package dependencies with `npm install`, and then
 
     npm start
 
-__barnowl-aruba__ will indiscriminately accept WebSocket clients and their data on localhost:3001/aruba and output (flattened) __raddec__ JSON to the console.
+__barnowl-aruba__ will indiscriminately accept AOS8 & AOS10 WebSocket clients and their data on localhost:3001/aruba/aos8 and localhost:3001/aruba/aos10, respectively, and output (flattened) __raddec__ JSON to the console.
+
+Note that AOS10 only supports secure WebSockets (wss://).  See below for instructions to create a secure WebSocket in a development environment.
 
 
 Hello barnowl-aruba!
@@ -96,7 +98,7 @@ Each AP has two or more radio identifiers:
 - Bluetooth radio MAC
 - (optional) USB-connected radio identifier(s)
 
-To the extent possible, all BLE raddecs will use the Bluetooth radio MAC as the `receiverId` property.  As the Bluetooth radio MAC is _not_ included in BLE Telemetry reports, as of __barnowl-aruba__ v1.2.1, it is instead automatically inferred from AP Health messages and, when available, BLE Data reports.
+To the extent possible, all BLE raddecs will use the Bluetooth radio MAC as the `receiverId` property.  As the Bluetooth radio MAC is _not_ included in AOS8 BLE Telemetry reports, as of __barnowl-aruba__ v1.2.1, it is instead automatically inferred from AP Health messages and, when available, BLE Data reports.
 
 WiFi raddecs and USB-connected raddecs will use the IP radio MAC as the `receiverId` property.
 
@@ -131,11 +133,35 @@ Supported Transport Services
 
 __barnowl-aruba__ supports the following Transport Services:
 
+### AOS8
+
 - BLE Data
 - BLE Telemetry (see Data vs. Telemetry above)
 - Serial Data
   - EnOcean Serial Protocol (requires USB dongle)
 - WiFi Telemetry & RTLS
+
+### AOS10
+
+- BLE Data
+
+
+Standalone Secure WebSockets
+----------------------------
+
+To facilitate testing in a development environment, __barnowl-aruba__ can run standalone using secure WebSockets with the command:
+
+    npm run secure
+
+In this case, the startup script will attempt to create a HTTPS server using the following two files:
+- /config/certificate.pem
+- /config/key.pem
+
+The APs should be configured to use the following Server URLs, substituting the xxx for the local IP address of the computer running __barnowl-aruba__:
+- wss://xxx.xxx.xxx.xxx:3001/aruba/aos8
+- wss://xxx.xxx.xxx.xxx:3001/aruba/aos10
+
+Instructions to create these files, as well as the corresponding CA certificate for the AP(s), are provided in the following section.
 
 
 Creating Certificates for Secure WebSockets on Local Network
@@ -257,6 +283,8 @@ These packages and more are bundled together as the [Pareto Anywhere](https://ww
 
 Project History
 ---------------
+
+__barnowl-aruba__ v1.4.0 adds support for the AOS10 WebSocket transport on the /aruba/aos10 path, with AOS8 support on both the /aruba/aos8 (recommended) and /aruba (legacy) paths.
 
 __barnowl-aruba__ v1.0.0 was released in August 2023 with an upgrade from the AOS 8.8 to the AOS 8.10 protobuf.  The latter includes the AP's Bluetooth MAC which is used as the `receiverId` property in place of the AP's WiFi MAC which was used in previous versions.
 
