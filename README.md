@@ -242,7 +242,7 @@ Upload the CA_cert.pem file to the AP (ex: via Central) and ensure it is assigne
 Aruba IoT Transport Profile Configuration
 -----------------------------------------
 
-The following IoT Transport Profile options should be configured on the Aruba AP.
+This section _only_ applies in the case where it is _not_ possible to use the GUI in Instant or Central to configure the AP(s).  In this rare case, the command-line configuration settings and commands will resemble the following:
 
 | Config Option     | Value                           |
 |:------------------|:--------------------------------|
