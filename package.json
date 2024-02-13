@@ -19,7 +19,9 @@
   "main": "./lib/barnowlaruba.js",
   "scripts": {
     "start": "node bin/barnowl-aruba",
-    "secure": "node bin/barnowl-aruba-secure"
+    "secure": "node bin/barnowl-aruba-secure",
+    "aos8v1proto": "pbjs -t static-module -w commonjs -o lib/aos8v1proto.js --path proto/aos8v1 aruba-iot-nb.proto",
+    "aos10v1proto": "pbjs -t static-module -w commonjs -o lib/aos10v1proto.js --path proto/aos10v1 aruba/iotops/partner/transport/v1/interface_data.proto"
   },
   "repository": {
     "type": "git",

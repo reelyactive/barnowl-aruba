@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+// Device class scoped data
+message DeviceClassScopedData {
+  // the device ID of the device in the given device class
+  string device_id = 1;
+}

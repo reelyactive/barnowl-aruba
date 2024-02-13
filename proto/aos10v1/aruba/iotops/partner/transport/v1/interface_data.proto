@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package aruba.iotops.partner.transport.v1;
+
+import "aruba/iotops/common/v1/data_location.proto";
+import "aruba/iotops/partner/transport/v1/interface_ap_inventory.proto";
+import "aruba/iotops/partner/transport/v1/interface_data_ble.proto";
+import "aruba/iotops/partner/transport/v1/interface_data_telemetry.proto";
+import "aruba/iotops/partner/transport/v1/interface_data_usb.proto";
+
+message TransportNBData {
+  message Header {
+    string version = 1;
+    enum Topic {
+      TOPIC_UNSPECIFIED = 0;
+      //BLE raw data
+      TOPIC_BLE_DATA = 1;
+      //Struct data and meta data
+      TOPIC_TELEMETRY = 2;
+      // USB raw data
+      TOPIC_SERIAL_USB_DATA = 3;
+      // AP radio and USB device health
+      TOPIC_AP_INVENTORY = 4;
+      // Keep alive
+      TOPIC_KEEPALIVE = 5;
+      // Device location
+      TOPIC_DEVICE_LOCATION = 6;
+    }
+    Topic topic = 2;
+    string connector_name = 3;
+    string tp_name = 4;
+  }
+
+  Header header = 1;
+
+  message Body {
+    //BLE raw data that distribution send to external in real time
+    repeated BleData ble_raw_data = 1;
+    //Struct data and meta data that reporter send to external periodically
+    repeated Telemetry telemetry = 2;
+    // USB raw data that reporter send to external in real time
+    repeated SerialNBUSBData serial_nb_usb_data = 3;
+    // USB raw data that reporter send to external in real time
+    Inventory inventory = 4;
+
+    aruba.iotops.common.v1.DeviceLocation device_location = 5;
+  }
+  Body body = 2;
+  int64 timestamp = 3; // UTC
+}
+
+message TransportSBData {
+  message Header {
+    string version = 1;
+    enum Topic {
+      TOPIC_UNSPECIFIED = 0;
+      // USB raw data
+      TOPIC_SERIAL_USB_DATA = 1;
+    }
+    Topic topic = 2;
+  }
+  Header header = 1;
+
+  message Body {
+    // The length of the array should be less than 10. If the array is longer than 10, excess data will be dropped
+    repeated SerialSBUSBData serial_sb_usb_data = 1;
+  }
+  Body body = 2;
+}

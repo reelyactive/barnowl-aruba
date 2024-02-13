@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+// USB device descriptor
+message USBDescriptor {
+  // USB vendor IDs and product IDs are 16-bit numbers used to identify USB devices to a computer or other host.
+  // Each vendor ID is assigned by the USB Implementers Forum to a specific company,
+  // which in turn assign a PID to individual products
+  uint32 vendor_id = 1;
+  // product ID
+  uint32 product_id = 2;
+  // The bcdDevice value indicates the device-defined revision number.
+  // The USB driver stack uses bcdDevice, along with idVendor and idProduct, to generate hardware and compatible IDs for the device
+  uint32 bcd_device = 3;
+  // Manufacturer
+  string manufacturer = 4;
+  // Product string
+  string product = 5;
+  // Version
+  string version = 6;
+}

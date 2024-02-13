@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package aruba.iotops.partner.transport.v1;
+
+message USBAddress {
+  string hw_id = 1;
+  uint32 interface_num = 2;
+}
+
+message SerialNBUSBData {
+  USBAddress usb_address = 1;
+  bytes payload = 2;
+}
+
+message SerialSBUSBData {
+  USBAddress usb_address = 1;
+  bytes payload = 2;
+}

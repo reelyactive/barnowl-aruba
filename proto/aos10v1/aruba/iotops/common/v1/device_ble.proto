@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+// BLE MAC address type
+enum BLEMacAddressType {
+  // Mac address unspecified
+  BLE_MAC_ADDRESS_TYPE_UNSPECIFIED = 0;
+
+  // Public MAC Address
+  BLE_MAC_ADDRESS_TYPE_PUBLIC = 1;
+
+  // Random Static MAC Address
+  BLE_MAC_ADDRESS_TYPE_RANDOM_STATIC = 2;
+
+  // Random Private Non-Resolvable MAC Address
+  BLE_MAC_ADDRESS_TYPE_RANDOM_PRIVATE_NON_RESOLVABLE = 3;
+
+  // Random Private Resolvable MAC Address
+  BLE_MAC_ADDRESS_TYPE_RANDOM_PRIVATE_RESOLVABLE = 4;
+}
+
+// BLE frame type
+enum BLEFrameType {
+  // Frame type unspecified
+  BLE_FRAME_TYPE_ADV_UNSPECIFIED = 0;
+  // Connectable undirected advertising which can be connected to by any BLE central.
+  BLE_FRAME_TYPE_ADV_IND = 1;
+  // Connectable directed advertising which can be connected to by one specific Central.
+  BLE_FRAME_TYPE_ADV_DIRECT_IND = 2;
+  // Non-connectable undirected advertising which cannot be connected to and cannot respond to a scan request.
+  BLE_FRAME_TYPE_ADV_NONCONN_IND = 3;
+  // The scan response packet containing any additional info sent by the peripheral.
+  BLE_FRAME_TYPE_SCAN_RSP = 4;
+  // Scannable undirected advertising which cannot be connected to but which can respond to a scan request.
+  BLE_FRAME_TYPE_ADV_SCAN_IND = 5;
+  // Connectable non-scannable undirected advertising events using extended advertising PDUs.
+  BLE_FRAME_TYPE_EXTENDED_CONNECTABLE_NONSCANNABLE_UNDIRECTED = 6;
+  // Connectable non-scannable directed advertising events using extended advertising PDUs.
+  BLE_FRAME_TYPE_EXTENDED_CONNECTABLE_NONSCANNABLE_DIRECTED = 7;
+  // Non-connectable scannable undirected advertising events using extended advertising PDUs. @note Only scan response data is supported.
+  BLE_FRAME_TYPE_EXTENDED_NONCONNECTABLE_SCANNABLE_UNDIRECTED = 8;
+  // Non-connectable scannable directed advertising events using extended advertising PDUs. @note Only scan response data is supported.
+  BLE_FRAME_TYPE_EXTENDED_NONCONNECTABLE_SCANNABLE_DIRECTED = 9;
+  // Non-connectable non-scannable undirected advertising events using extended advertising PDUs.
+  BLE_FRAME_TYPE_EXTENDED_NONCONNECTABLE_NONSCANNABLE_UNDIRECTED = 10;
+  // Non-connectable non-scannable directed advertising events using extended advertising PDUs.
+  BLE_FRAME_TYPE_EXTENDED_NONCONNECTABLE_NONSCANNABLE_DIRECTED = 11;
+}
+
+// BLE data of assigned number types
+message BLEAssignedNumberTypeData {
+  // a 2-byte Company ID specified by ManufacturerSpecificData(0xff) tag
+  repeated bytes company_id = 1;
+  // short local name specified by ShortenedLocalName(0x08) tag
+  bytes short_local_name = 2;
+  // complete local name specified by CompleteLocalName(0x09) tag
+  bytes complete_local_name = 3;
+  // appearance value specified by AppearanceElement(0x19) tag
+  bytes appearance_value = 4;
+}

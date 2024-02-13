@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package aruba.iotops.partner.transport.v1;
+
+import "aruba/iotops/common/v1/data_ble_beacons.proto";
+import "aruba/iotops/common/v1/data_sensor.proto";
+import "aruba/iotops/common/v1/device_class_scope.proto";
+import "aruba/iotops/common/v1/device_type.proto";
+import "aruba/iotops/partner/transport/v1/interface_data_common.proto";
+
+message BLEBeacons {
+  aruba.iotops.common.v1.IBeacon ibeacon = 1;
+  aruba.iotops.common.v1.Eddystone eddystone = 2;
+}
+
+message Telemetry {
+  message MetaData {
+    aruba.iotops.common.v1.DeviceType device_type = 1;
+    // iot device mac address
+    DeviceAddress iot_device_address = 2;
+    // interval
+    uint32 aggregate_interval = 5;
+    // reporters(APs)
+    message Reporter {
+      // AP's mac address
+      bytes ap_mac_address = 1;
+      // Rssi between device and the AP
+      optional sint32 rssi_from_device = 2;
+      // device last time update
+      uint64 last_seen_at = 3;
+      message IoTDeviceStats {
+        uint64 up_time = 1;
+        uint64 adv_count = 2;
+        uint64 sequence_number = 3;
+        uint64 frame_count = 4;
+      }
+      IoTDeviceStats device_stats = 4;
+    }
+    repeated Reporter reporters = 6;
+    map<string, common.v1.DeviceClassScopedData> device_class_scope = 7;
+  }
+  MetaData meta_data = 1;
+  repeated BLEBeacons beacons = 2;
+  aruba.iotops.common.v1.Sensor sensor_value = 3;
+}

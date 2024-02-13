@@ -239,6 +239,34 @@ Configure __barnowl-aruba__ using the server_cert.pem and server_key.pem files.
 Upload the CA_cert.pem file to the AP (ex: via Central) and ensure it is assigned to IoT Transport (ex: Security - Certificate Usage - IoT CA Cert).
 
 
+Compiling Protocol Buffer JavaScript bundles
+--------------------------------------------
+
+Aruba IoT Transport encodes data using [Protocol Buffers](https://protobuf.dev/), and, to decode the data, __barnowl-aruba__ uses a JavaScript bundle of the proto definitions.  The proto definitions, which are different for AOS8 and AOS10, can be found on the [Aruba Support Portal (ASP)](https://asp.arubanetworks.com/), and also in the /proto folder of this repository.
+
+The AOS 8 and AOS 10 proto definitions are already compiled and bundled in this repository in the /lib folder.  An automated procedure for updating these bundles, should new versions of the proto definitions be released, is documented below.
+
+Compiling the proto definitions into a JavaScript bundle requires __pbjs__ from the [protobuf-cli](https://www.npmjs.com/package/protobufjs-cli), which must first be installed as follows:
+
+    npm install -g protobuf-cli
+
+### AOS 8 protobuf
+
+Compile the AOS 8 proto definitions (v1) with the following command:
+
+    npm run aos8v1proto
+
+which will compile and bundle, using __pbjs__ the defintions from /proto/aos8v1 into the file /lib/aos8v1proto.js.
+
+### AOS 10 protobuf
+
+Compile the AOS 10 proto definitions (v1) with the following command:
+
+    npm run aos10v1proto
+
+which will compile and bundle, using __pbjs__ the defintions from /proto/aos10v1 into the file /lib/aos10v1proto.js.
+
+
 Aruba IoT Transport Profile Configuration
 -----------------------------------------
 

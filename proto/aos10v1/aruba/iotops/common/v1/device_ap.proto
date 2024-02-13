@@ -1,0 +1,194 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+import "aruba/iotops/common/v1/data_location.proto";
+import "aruba/iotops/common/v1/device_usb.proto";
+
+// AP inventory
+message APInventory {
+  // AP mac address
+  bytes mac = 1;
+  // AP status
+  HealthStatus status = 2;
+  // AP IPv4 address
+  optional string ipv4 = 3;
+  // AP IPv6 address
+  optional string ipv6 = 4;
+  // AP HW type
+  optional string hw_type = 5;
+  // AOS software version
+  optional string sw_version = 6;
+  // AOS software build
+  optional string sw_build = 7;
+  // AP radio inventory
+  repeated IotRadioInventory radio_inventory = 8;
+  // AP usb device inventory
+  repeated USBDeviceInventory usb_inventory = 9;
+  // AP location
+  common.v1.Location location = 10;
+}
+
+// USB device inventory
+message USBDeviceInventory {
+  // USB ID
+  string identifier = 1;
+  // USB status
+  HealthStatus status = 2;
+  // USB Descriptor
+  common.v1.USBDescriptor usb_descriptor = 3;
+}
+
+// Radio inventory
+message IotRadioInventory {
+  // MAC address of the device
+  string mac = 1;
+  // Indicates type of the IoT radio HW
+  enum IotRadioType {
+    // UNSPECIFIED
+    IOT_RADIO_TYPE_UNSPECIFIED = 0;
+    // gen1 is capable of BLE 4.0 only (3xx series minus 303P)
+    IOT_RADIO_TYPE_GEN1 = 1;
+    // gen2 is capable of BLE 5.0 and Zigbee  (303P, 5xx and 6xx series)
+    IOT_RADIO_TYPE_GEN2 = 2;
+  }
+  // Radio type
+  IotRadioType hardware = 2;
+  // Hardware type of the Aruba radio
+  enum IotRadioFirmware {
+    // UNSPECIFIED
+    IOT_RADIO_FIRMWARE_UNSPECIFIED = 0;
+    // Radio firmware ARUBA
+    IOT_RADIO_FIRMWARE_ARUBA = 1;
+    // Radio firmware SDR
+    IOT_RADIO_FIRMWARE_SDR = 2;
+  }
+  // FW type running on the Aruba IoT radio
+  IotRadioFirmware firmware = 3;
+  // Indicates status of the Radio/USB device
+  HealthStatus health = 4;
+  // Value will be true in case of the AP-USB-ZB dongle, false otherwise
+  bool external = 5;
+  // FW version, such as "DFU App 1.4-123"
+  string firmware_version = 6;
+  // radio state, including config data
+  IotRadioState state = 7;
+  // radio id
+  string id = 8;
+}
+
+// health status
+enum HealthStatus {
+  // UNSPECIFIED
+  HEALTH_STATUS_UNSPECIFIED = 0;
+  // worked well
+  HEALTH_STATUS_HEALTHY = 1;
+  // worked not well
+  HEALTH_STATUS_DEGRADED = 2;
+  // when ap offline or radio, usb device plug out
+  HEALTH_STATUS_UNAVAILABLE = 3;
+}
+
+// radio state
+message IotRadioState {
+  // The 4 modes - off/ble/zigbee/both
+  enum IotRadioMode {
+    // UNSPECIFIED
+    IOT_RADIO_MODE_UNSPECIFIED = 0;
+    // Radio mode off
+    IOT_RADIO_MODE_OFF = 1;
+    // Radio mode BLE
+    IOT_RADIO_MODE_BLE = 2;
+    // Radio mode ZigBee
+    IOT_RADIO_MODE_ZIGBEE = 3;
+    // Radio mode both
+    IOT_RADIO_MODE_BOTH = 4;
+  }
+  // Radio mode
+  IotRadioMode radio_mode = 1;
+  // BLE state
+  IotRadioStateBle ble_state = 2;
+  // ZigBee state
+  IotRadioStateZigbee zb_state = 3;
+}
+
+// BLE radio state
+message IotRadioStateBle {
+  // the value is consistent with ble_cmn_msg.h
+  enum BleOpMode {
+    // UNSPECIFIED
+    BLE_OP_MODE_UNSPECIFIED = 0;
+    // BLE op mode disabled
+    BLE_OP_MODE_DISABLED = 1;
+    // BLE op mode scanning
+    BLE_OP_MODE_SCANNING = 2;
+    // BLE op mode beaconing
+    BLE_OP_MODE_BEACONING = 3;
+    // BLE op mode both
+    BLE_OP_MODE_BOTH = 4;
+  }
+  // The 3 modes - beaconing/scanning/both
+  BleOpMode ble_op_mode = 1;
+  // The operational txpower
+  uint32 ble_tx_power = 2;
+  // the value is consistent with ble_cmn_msg.h
+  enum BleConsole {
+    // UNSPECIFIED
+    BLE_CONSOLE_UNSPECIFIED = 0;
+    // BLE console off
+    BLE_CONSOLE_OFF = 1;
+    // BLE console on
+    BLE_CONSOLE_ON = 2;
+    // BLE console dynamic
+    BLE_CONSOLE_DYNAMIC = 3;
+  }
+  // dynamic/on/off
+  BleConsole ble_console = 3;
+  // ibeacon and cbeacon's 3 slots config details
+  repeated Beacon beacons = 4;
+}
+
+// ZigBee radio state
+message IotRadioStateZigbee {
+  // ZigBee op mode
+  uint32 zb_op_mode = 1;
+  // ZigBee tx power
+  uint32 zb_tx_power = 2;
+  // ZigBee channel
+  uint32 zb_channel = 3;
+  // ZigBee security
+  bool zb_security = 4;
+  // ZigBee permit join
+  bool zb_permit_join = 5;
+  // ZigBee pan id
+  uint32 zb_pan_id = 6;
+}
+
+// Beacon configuration
+message Beacon {
+  reserved 3;
+  reserved "profile_id";
+
+  // Advertisement format: ibeacon/custom
+  uint32 adv_format = 1;
+  // Advertisement interval (in ms, should be multiple of 100)
+  uint32 interval = 2;
+  // IBeacon
+  message IBeacon {
+    // IBeacon UUID
+    string uuid = 1;
+    // IBeacon Major
+    uint32 major = 2;
+    // IBeacon Minor
+    uint32 minor = 3;
+  }
+  // iBeacon params
+  IBeacon ibeacon = 4;
+  // Custom beacon
+  message CustomBeacon {
+    // Custom advertisement payload bytes
+    bytes payload = 1;
+  }
+  // Custom beacon params
+  CustomBeacon custom_beacon = 5;
+}

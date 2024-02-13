@@ -1,0 +1,162 @@
+//  (C) Copyright [2018-2022] Hewlett Packard Enterprise Development LP
+//  Note: File corresponds to AOS 8.11.x.x release
+
+syntax = "proto2";
+package aruba_telemetry;
+ 
+message IbeaconParam {
+    // IBeacon UUID
+    optional bytes      uuid                = 1;
+    // IBeacon Major
+    optional uint32     major               = 2;
+    // IBeacon Minor
+    optional uint32     minor               = 3;
+}
+ 
+message CustomBeaconParam {
+    // Custom advertisement payload bytes
+    optional bytes      payload             = 1;
+}
+ 
+message Beacon {
+    // Advertisement format: ibeacon/custom
+    optional uint32     adv_format           = 1;
+    // Advertisement interval (in ms, should be multiple of 100)
+    optional uint32     interval             = 2;
+    // Advertisement slot for this particular beacon config
+    optional uint32     profile_id           = 3;
+    // iBeacon params
+    optional IbeaconParam    ibeacon         = 4;
+    // Custom beacon params
+    optional CustomBeaconParam custom_beacon = 5;
+}
+ 
+// Ben required this to be "Beacons", It also causes build error for conficting with existed one in the aruba-iot-nb-telemetry.proto file
+// so rename it to BeaconConfig
+message BeaconConfig {
+    repeated Beacon beacons                  = 1;
+}
+  
+message IotRadioStateZigbee {
+    optional uint32     zb_opmode              = 1;
+    optional uint32     zb_txpower             = 2;
+    optional uint32     zb_channel             = 3;
+    optional bool       zb_security            = 4;
+    optional bool       zb_permit_join         = 5;
+    optional uint32     zb_panid               = 6;
+}
+ 
+// the value is consistent with ble_cmn_msg.h
+enum BleOpModeEnum {
+    IOT_RADIO_BLE_OPMODE_DISABLED  = 0;
+    IOT_RADIO_BLE_OPMODE_SCANNING  = 1;
+    IOT_RADIO_BLE_OPMODE_BEACONING = 2;
+    IOT_RADIO_BLE_OPMODE_BOTH      = 3;
+}
+ 
+// the value is consistent with ble_cmn_msg.h
+enum BleConsoleEnum {
+    IOT_RADIO_BLE_CONSOLE_OFF     = 0;
+    IOT_RADIO_BLE_CONSOLE_ON      = 1;
+    IOT_RADIO_BLE_CONSOLE_DYNAMIC = 2;
+}
+ 
+message IotRadioStateBle {
+    // The 3 modes - beaconing/scanning/both
+    optional BleOpModeEnum         ble_opmode          = 1;
+    // The operational txpower
+    optional uint32                ble_txpower         = 2;
+    // dynamic/on/off
+    optional BleConsoleEnum        ble_console         = 3;
+    // ibeacon and cbeacon's 3 slots config details
+    optional BeaconConfig          beacons             = 4;
+}
+ 
+// the value is consistent with ble_cmn_msg.h
+enum IoTRadioMode {
+    IOT_RADIO_MODE_OFF      = 0;
+    IOT_RADIO_MODE_BLE      = 1;
+    IOT_RADIO_MODE_ZIGBEE   = 2;
+    IOT_RADIO_MODE_BOTH     = 3;
+     
+}
+message IotRadioState {
+    // The 4 modes - off/ble/zigbee/both
+    optional IoTRadioMode           radio_mode = 1;
+    optional IotRadioStateBle       ble_state  = 2;
+    optional IotRadioStateZigbee    zb_state   = 3;
+}
+ 
+message UsbDescriptor {
+    // The data is same with the output of the "show ap debug usb-device-mgmt device all"
+    optional string  manufacturer       = 1;
+    optional uint32  vendor_id          = 2; 
+    optional uint32  product_id         = 3; 
+    optional string  dev_id             = 4;
+    optional string  serial_number      = 5;
+    optional string  version            = 6;
+    optional string  product            = 7;
+}
+ 
+// Indicates status of the Radio/USB device
+enum HealthStatus {
+    healthy             = 0;
+    degraded            = 1;
+    unavailable         = 2;
+}
+ 
+// Indicates FW type running on the onboard IoT radio
+enum IotRadioFirmware {
+    arubaDefault        = 0;
+}
+ 
+// Indicates type of the IoT radio HW
+// gen1 is capable of BLE 4.0 only (3xx series minus 303P)
+// gen2 is capable of BLE 5.0 and Zigbee  (303P, 5xx and 6xx series)
+enum IotRadioType {
+    gen1                = 0;
+    gen2                = 1;
+}
+ 
+// Iot Radio sub message include information about the
+// onboard/USB Aruba IoT radio
+message IotRadio {
+    // MAC address of the device
+    optional bytes              mac               = 1;
+    // Hardware type of the Aruba radio
+    optional IotRadioType       hardware          = 2;
+    // FW type running on the Aruba IoT radio
+    optional IotRadioFirmware   firmware          = 3;
+    // Indicates status of the Radio/USB device
+    optional HealthStatus       health            = 4;
+    // Value will be true in case of the AP-USB-ZB dongle, false otherwise
+    optional bool               external          = 5;
+    // FW version, such as "DFU App 1.4-123"
+    optional string              firmware_version = 6;
+    // radio state, including config data
+    optional IotRadioState      state             = 7;
+ 
+}
+ 
+// USB device sub message include information about
+// supported partner USB devices (IoT gateways, sensors, etc.)
+message UsbDevice {
+    // This is a unique string to identify the attached USB device
+    optional string             identifier      = 1;
+    // Indicates status of the Radio/USB device
+    optional HealthStatus       health          = 2;
+    // USB Descriptor
+    optional UsbDescriptor      descriptor      = 3;
+ 
+}
+ 
+// Indicates health of the various IoT devices onboard/attached
+// to the AP
+message ApHealthUpdate {
+    // AP level health
+    optional HealthStatus       apStatus        = 1;
+    // Radio level info, including health status
+    repeated IotRadio           radio           = 2;
+    // USB level info, including health status
+    repeated UsbDevice          usb             = 3;
+}

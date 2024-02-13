@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+// Device types used in IoTOperations
+enum DeviceType {
+  // Device type unspecified
+  DEVICE_TYPE_UNSPECIFIED = 0;
+  // BLE device
+  DEVICE_TYPE_BLE = 1;
+  // Zigbee device
+  DEVICE_TYPE_ZIGBEE = 2;
+  // USB device
+  DEVICE_TYPE_USB = 3;
+  // AP device
+  DEVICE_TYPE_AP = 4;
+  // Secondary device
+  DEVICE_TYPE_SECONDARY = 5;
+  // Radio
+  DEVICE_TYPE_RADIO = 6;
+}
+
+// buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+// Id type used in IoTOperations partner API
+enum IDType {
+  // Id type hardwareId
+  ID_TYPE_HARDWARE_ID = 0;
+  // Id type deviceId
+  ID_TYPE_DEVICE_ID = 1;
+}

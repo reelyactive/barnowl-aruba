@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package aruba.iotops.partner.transport.v1;
+
+import "aruba/iotops/common/v1/device_ble.proto";
+
+message DeviceAddress {
+  // Advertisement address of the iot device
+  bytes iot_device_mac = 1;
+  // Mac Address Type
+  aruba.iotops.common.v1.BLEMacAddressType ble_mac_type = 2;
+  string hw_id = 3;
+}

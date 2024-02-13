@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package aruba.iotops.partner.transport.v1;
+
+import "aruba/iotops/common/v1/device_ble.proto";
+import "aruba/iotops/partner/transport/v1/interface_data_common.proto";
+
+message BleData {
+  // Advertisement address of the sender
+  DeviceAddress ble_device_address = 1;
+  // Frame Type
+  aruba.iotops.common.v1.BLEFrameType ble_device_frame_type = 2;
+  // raw payload - up to to 31 bytes for Bluetooth 4.1; up to 255 bytes for BT 4.2 and higher
+  bytes ble_device_raw_data = 3;
+  // signal strength in dBm
+  optional sint32 ble_device_rssi = 4;
+  // reporter ap mac
+  bytes ap_mac = 5;
+}

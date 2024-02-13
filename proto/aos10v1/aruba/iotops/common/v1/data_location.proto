@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+// Location
+message Location {
+  // latitude
+  optional double latitude = 1;
+  // latitude uncertainty; unit: meter; zero means 100% certainty
+  optional double latitude_uncertainty = 2;
+  // longitude
+  optional double longitude = 3;
+  // longitude uncertainty; unit: meter; zero means 100% certainty
+  optional double longitude_uncertainty = 4;
+  // units per meter
+  optional float units_per_meter = 5;
+  // x
+  optional float x = 6;
+  // y
+  optional float y = 7;
+  // floor id
+  optional string floor_id = 8;
+  // floor number
+  optional float floor_number = 9;
+  // elevation
+  optional double elevation = 10;
+  // elevation uncertainty; unit: meter; zero means 100% certainty
+  optional double elevation_uncertainty = 11;
+}
+
+// Device Location: can be used for AE->AP, AP & SE to external server
+message DeviceLocation {
+  // Single Device has identifier, location, timestamp
+  message Device {
+    // IoTOps generated device UUID
+    string uuid = 1;
+    // Mac address for BLE/Zigbee, usb_id for USB
+    string hw_id = 2;
+    // Device location
+    Location location = 3;
+    // Timestamp in which SE or AE calculates location; unit: ms
+    int64 calculated_timestamp = 4;
+  }
+  // all device locations to be reported
+  repeated Device devices = 1;
+}

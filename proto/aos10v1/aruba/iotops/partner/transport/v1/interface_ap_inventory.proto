@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package aruba.iotops.partner.transport.v1;
+
+import "aruba/iotops/common/v1/device_ap.proto";
+message Inventory {
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Type {
+    TYPE_EVENT = 0;
+    TYPE_ALL = 1;
+  }
+  Type package_type = 1;
+  repeated common.v1.APInventory ap_inventories = 2;
+}

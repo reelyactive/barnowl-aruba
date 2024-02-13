@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package aruba.iotops.common.v1;
+
+// Customized device sensor value reported by applications
+message Sensor {
+  // Battery level in percentage(%).
+  //    minimum: 0,
+  //    maximum: 100,
+  //    example: "75".
+  optional float battery = 1;
+  // Temperature in Celsius(°C).
+  //    minimum: -273.15,
+  //    example: "36.5".
+  optional float temperature_c = 2;
+  // Relative humidity in percentage(%).
+  //    minimum: 0,
+  //    maximum: 100,
+  //    example: "45".
+  optional float humidity = 3;
+  // Voltage in volt(V).
+  //    minimum: -3.4028235e+38,
+  //    maximum: 3.4028235e+38,
+  //    example: "12.5".
+  optional float voltage = 4;
+  // Illumination in lux.
+  //    minimum: 0,
+  //    maximum: 3.4028235e+38,
+  //    example: "100".
+  optional float illumination = 5;
+  // Indicator if motion is detected.
+  //    example: "true".
+  optional bool motion = 6;
+  // Level of current in ampere(A).
+  //    minimum: -3.4028235e+38,
+  //    maximum: 3.4028235e+38,
+  //    example: "5".
+  optional float current = 7;
+  // Level of carbon monoxide(CO) in parts per million(ppm).
+  //    minimum: 0,
+  //    maximum: 1000000,
+  //    example: "10".
+  optional float co = 8;
+  // Level of carbon dioxide(CO2) in parts per million(ppm).
+  //    minimum: 0,
+  //    maximum: 1000000,
+  //    example: "20".
+  optional float co2 = 9;
+  // Level of volatile organic compound(VOC) in parts per million(ppm).
+  //    minimum: 0,
+  //    maximum: 1000000,
+  //    example: "30".
+  optional float voc = 10;
+  // Level of resistance in ohm(Ω).
+  //    minimum: 0,
+  //    maximum: 3.4028235e+38,
+  //    example: "20.5".
+  optional float resistance = 11;
+  // Level of pressure in Kilopascal(kPa).
+  //    minimum: 0,
+  //    maximum: 3.4028235e+38,
+  //    example: "30".
+  optional float pressure = 12;
+  // Distance in Meter(m).
+  //    minimum: 0,
+  //    maximum: 3.4028235e+38,
+  //    example: "30".
+  optional float distance = 13;
+  // Capacitance in Farad(F).
+  //    minimum: 0,
+  //    maximum: 3.4028235e+38,
+  //    example: "20.5".
+  optional float capacitance = 14;
+  // Alarm types
+  enum Alarm {
+    // unspecified alarm
+    ALARM_UNSPECIFIED = 0;
+    // water alarm
+    ALARM_WATER = 1;
+    // smoke alarm
+    ALARM_SMOKE = 2;
+    // fire alarm
+    ALARM_FIRE = 3;
+    // glass break alarm
+    ALARM_GLASS_BREAK = 4;
+    // intrusion alarm
+    ALARM_INTRUSION = 5;
+  }
+  // Set of active Alarms.
+  // example: "[\"ALARM_WATER\", \"ALARM_SMOKE\", \"ALARM_FIRE\"]".
+  repeated Alarm alarm = 15;
+  // Accelerometer
+  message Accelerometer {
+    // x-axis
+    optional float x = 1;
+    // y-axis
+    optional float y = 2;
+    // z-axis
+    optional float z = 3;
+    // accelerometer status types
+    enum AccelStatus {
+      // unspecified status
+      ACCEL_STATUS_UNSPECIFIED = 0;
+      // status ok
+      ACCEL_STATUS_OK = 1;
+      // status out-of-range
+      ACCEL_STATUS_OUT_OF_RANGE = 2;
+      // status threshold1
+      ACCEL_STATUS_THRESHOLD1 = 3;
+      // status threshold2
+      ACCEL_STATUS_THRESHOLD2 = 4;
+    }
+    // accelerometer status
+    optional AccelStatus accel_status = 4;
+  }
+  // Accelerometer in three dimensions.
+  //    example: "{\"x\":10.5, \"y\":20.5, \"z\":30.5, \"accelStatus\":\"ACCEL_STATUS_OK\"}".
+  optional Accelerometer accelerometer = 16;
+  // switch inputs
+  message Inputs {
+    // switch state definition
+    enum SwitchState {
+      // switch statue unspecified
+      SWITCH_STATE_UNSPECIFIED = 0;
+      // switch state unknown
+      SWITCH_STATE_UNKNOWN = 1;
+      // switch on
+      SWITCH_STATE_ON = 2;
+      // switch off
+      SWITCH_STATE_OFF = 3;
+    }
+    // switch states
+    repeated SwitchState switch_indexes = 1;
+  }
+  // Set of input switch status.
+  //    example: "{\"switchIndexes\":[\"SWITCH_STATE_UNKNOWN\",\"SWITCH_STATE_ON\",\"SWITCH_STATE_OFF\"]}".
+  optional Inputs inputs = 17;
+  // extended value definition
+  message Extended {
+    // extended key
+    string extend_field_key = 1;
+    // extended value
+    bytes extend_field_value = 2;
+  }
+  // Key value pairs that can be freely defined.
+  //    example: "[{\"extendFieldKey\":\"key1\",\"extendFieldValue\":\"value1\"},{\"extendFieldKey\":\"key2\",\"extendFieldValue\":\"value2\"}]".
+  repeated Extended extended = 18;
+}
