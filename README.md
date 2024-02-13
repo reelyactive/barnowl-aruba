@@ -242,9 +242,9 @@ Upload the CA_cert.pem file to the AP (ex: via Central) and ensure it is assigne
 Compiling Protocol Buffer JavaScript bundles
 --------------------------------------------
 
-Aruba IoT Transport encodes data using [Protocol Buffers](https://protobuf.dev/), and, to decode the data, __barnowl-aruba__ uses a JavaScript bundle of the proto definitions.  The proto definitions, which are different for AOS8 and AOS10, can be found on the [Aruba Support Portal (ASP)](https://asp.arubanetworks.com/), and also in the /proto folder of this repository.
+Aruba IoT Transport encodes data using [Protocol Buffers](https://protobuf.dev/), and, to decode the data, __barnowl-aruba__ uses a JavaScript bundle of the proto definitions.  The proto definitions, which are different for AOS 8 and AOS 10, can be found on the [Aruba Support Portal (ASP)](https://asp.arubanetworks.com/), and also in the /proto folder of this repository.
 
-The AOS 8 and AOS 10 proto definitions are already compiled and bundled in this repository in the /lib folder.  An automated procedure for updating these bundles, should new versions of the proto definitions be released, is documented below.
+The AOS 8 and AOS 10 proto definitions are already compiled and bundled in this repository in the /lib folder.  An automated procedure for updating these bundles, _should new versions of the proto definitions be released,_ is documented below.
 
 Compiling the proto definitions into a JavaScript bundle requires __pbjs__ from the [protobuf-cli](https://www.npmjs.com/package/protobufjs-cli), which must first be installed as follows:
 
@@ -256,7 +256,7 @@ Compile the AOS 8 proto definitions (v1) with the following command:
 
     npm run aos8v1proto
 
-which will compile and bundle, using __pbjs__ the defintions from /proto/aos8v1 into the file /lib/aos8v1proto.js.
+which will compile and bundle, using __pbjs__, the defintions from /proto/aos8v1 into the file /lib/aos8v1proto.js.
 
 ### AOS 10 protobuf
 
@@ -264,7 +264,7 @@ Compile the AOS 10 proto definitions (v1) with the following command:
 
     npm run aos10v1proto
 
-which will compile and bundle, using __pbjs__ the defintions from /proto/aos10v1 into the file /lib/aos10v1proto.js.
+which will compile and bundle, using __pbjs__, the defintions from /proto/aos10v1 into the file /lib/aos10v1proto.js.
 
 
 Aruba IoT Transport Profile Configuration
@@ -312,7 +312,7 @@ These packages and more are bundled together as the [Pareto Anywhere](https://ww
 Project History
 ---------------
 
-__barnowl-aruba__ v1.4.0 adds support for the AOS10 WebSocket transport on the /aruba/aos10 path, with AOS8 support on both the /aruba/aos8 (recommended) and /aruba (legacy) paths.
+__barnowl-aruba__ v1.4.0 adds support for the AOS 10 WebSocket transport on the /aruba/aos10 path, with AOS 8 support on both the /aruba/aos8 (recommended) and /aruba (legacy) paths.
 
 __barnowl-aruba__ v1.0.0 was released in August 2023 with an upgrade from the AOS 8.8 to the AOS 8.10 protobuf.  The latter includes the AP's Bluetooth MAC which is used as the `receiverId` property in place of the AP's WiFi MAC which was used in previous versions.
 
