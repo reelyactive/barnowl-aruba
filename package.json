@@ -12,7 +12,7 @@
     "Aruba",
     "raddec"
   ],
-  "version": "1.4.0",
+  "version": "1.4.1",
   "engines": {
     "node": ">=10.0.0"
   },
