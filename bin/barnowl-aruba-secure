@@ -27,8 +27,11 @@ let barnowl = new BarnowlAruba();
 
 barnowl.addListener(BarnowlAruba.WsListener, LISTENER_OPTIONS);
 
-barnowl.on('raddec', function(raddec) {
+barnowl.on('raddec', (raddec) => {
   console.log(raddec.toFlattened());
+});
+barnowl.on('infrastructureMessage', (infrastructureMessage) => {
+  console.log(infrastructureMessage);
 });
 
 server.listen(3001);
