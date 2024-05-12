@@ -222,21 +222,21 @@ Update the CN field with the IP address of the computer running __barnowl-aruba_
 
 First, generate a CA private key & certificate:
 
-    openssl req -nodes -new -x509 -keyout CA_key.pem -out CA_cert.pem -days 1825 -config CA.cnf
+    openssl req -nodes -new -x509 -keyout CA_key.pem -out CA_certificate.pem -days 1825 -config CA.cnf
 
 Second, generate the web server's secret key & CSR:
 
-    openssl req -sha256 -nodes -newkey rsa:2048 -keyout server_key.pem -out server.csr -config server.cnf
+    openssl req -sha256 -nodes -newkey rsa:2048 -keyout key.pem -out server.csr -config server.cnf
 
-Third, create the certificate, signing it with its own certificate authority:
+Third, create the web server's certificate, signing it with its own certificate authority:
 
-    openssl x509 -req -days 398 -in server.csr -CA CA_cert.pem -CAkey CA_key.pem -CAcreateserial -out server_cert.pem -extensions req_ext -extfile server.cnf
+    openssl x509 -req -days 398 -in server.csr -CA CA_certificate.pem -CAkey CA_key.pem -CAcreateserial -out certificate.pem -extensions req_ext -extfile server.cnf
 
 ### Assign the certificates
 
-Configure __barnowl-aruba__ using the server_cert.pem and server_key.pem files.
+Configure __barnowl-aruba__ by copying the certificate.pem and key.pem files to the /config folder, as described in [Standalone Secure WebSockets](#standalone-secure-websockets) above.
 
-Upload the CA_cert.pem file to the AP (ex: via Central) and ensure it is assigned to IoT Transport (ex: Security - Certificate Usage - IoT CA Cert).
+Upload the CA_certificate.pem file to the AP (ex: via Central) and ensure it is assigned to IoT Transport (ex: Security - Certificate Usage - IoT CA Cert).
 
 
 Compiling Protocol Buffer JavaScript bundles
