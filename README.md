@@ -234,9 +234,9 @@ Third, create the web server's certificate, signing it with its own certificate 
 
 ### Assign the certificates
 
-Configure __barnowl-aruba__ by copying the certificate.pem and key.pem files to the /config folder, as described in [Standalone Secure WebSockets](#standalone-secure-websockets) above.
+Configure __barnowl-aruba__ by copying the `certificate.pem` and `key.pem` files to the /config folder, as described in [Standalone Secure WebSockets](#standalone-secure-websockets) above.
 
-Upload the CA_certificate.pem file to the AP (ex: via Central) and ensure it is assigned to IoT Transport (ex: Security - Certificate Usage - IoT CA Cert).
+Upload the `CA_certificate.pem` file to the AP (ex: via Central) and ensure it is assigned to IoT Transport (ex: Security - Certificate Usage - IoT CA Cert).
 
 
 Compiling Protocol Buffer JavaScript bundles
