@@ -11,7 +11,7 @@ __barnowl-aruba__ is a lightweight [Node.js package](https://www.npmjs.com/packa
 Getting Started
 ---------------
 
-Follow our step-by-step [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) tutorial to get started with __barnowl-aruba__ or __Pareto Anywhere__.  Or visit our [Aruba Networks integration](https://www.reelyactive.com/pareto/anywhere/infrastructure/aruba/) page to learn about alternative configurations such as Aruba IoT Transport for Azure.
+Follow our step-by-step [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) tutorial to get started with __barnowl-aruba__ or __Pareto Anywhere__.  Or visit our [HPE Aruba Networking integration](https://www.reelyactive.com/pareto/anywhere/infrastructure/aruba/) page to learn about alternative configurations such as Aruba IoT Transport for Azure.
 
 Learn "owl" about the __raddec__ JSON data output:
 -  [reelyActive Developer's Cheatsheet](https://reelyactive.github.io/diy/cheatsheet/)
@@ -144,6 +144,40 @@ __barnowl-aruba__ supports the following Transport Services:
 ### AOS10
 
 - BLE Data
+
+
+Southbound Interface
+--------------------
+
+__barnowl-aruba__ supports the retrieval of data from Bluetooth Low Energy devices over GATT, which requires southbound interaction.  When a specific payload pattern is observed, a series of southbound action messages are issued to the access point(s) and any response messages are consequently handled.
+
+Following a completed series of actions and responses, a raddec with `protocolSpecificData` will be emitted, for example:
+
+```javascript
+{
+  transmitterId: "fee150bada55",
+  transmitterIdType: 2,
+  rssiSignature: [ ... ],
+  packets: [ ... ],
+  protocolSpecificData: {
+    gatt: [
+      { 
+        serviceUuid: "1c930003d45911e79296b8e856369374",
+        characteristicUuid: "1c930032d45911e79296b8e856369374",
+        value: "0415"
+      },
+      { 
+        serviceUuid: "1c930003d45911e79296b8e856369374",
+        characteristicUuid: "1c930032d45911e79296b8e856369374",
+        notificationValues: [ "da7a", "da7a", "da7a", "da7a" ]
+      }
+    ]
+  }
+  timestamp: 1645568542222
+}
+```
+
+Currently, [Sensor-Works BluVib devices](https://www.reelyactive.com/pareto/anywhere/devices/bluvib/) are supported.  See lib/gattmanager.js for the implementation details.
 
 
 Standalone Secure WebSockets
