@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+const BarnowlAruba = require('../lib/barnowlaruba.js');
+
+const DECODING_OPTIONS = { acceptTelemetryReports: true,
+                           historyMilliseconds: 2000 };
+const LISTENER_OPTIONS = { port: 3001, decodingOptions: DECODING_OPTIONS };
+
+let barnowl = new BarnowlAruba();
+
+barnowl.addListener(BarnowlAruba.WsListener, LISTENER_OPTIONS);
+
+barnowl.on('raddec', (raddec) => {
+  if(Array.isArray(raddec.protocolSpecificData?.gatt)) {
+    console.log(raddec.toFlattened());
+    console.log(raddec.protocolSpecificData);
+  }
+});
