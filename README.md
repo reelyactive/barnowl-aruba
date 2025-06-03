@@ -11,7 +11,7 @@ __barnowl-aruba__ is a lightweight [Node.js package](https://www.npmjs.com/packa
 Getting Started
 ---------------
 
-Follow our step-by-step tutorial to get started with __barnowl-aruba__ or __Pareto Anywhere__: 
+Follow our step-by-step tutorials to get started with __barnowl-aruba__ or __Pareto Anywhere__: 
 - [Configure Aruba IoT Operations](https://reelyactive.github.io/diy/aruba-iotops-config/) _for AOS 10_
 - [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) _for AOS 8_
 
