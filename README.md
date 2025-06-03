@@ -11,7 +11,11 @@ __barnowl-aruba__ is a lightweight [Node.js package](https://www.npmjs.com/packa
 Getting Started
 ---------------
 
-Follow our step-by-step [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) tutorial to get started with __barnowl-aruba__ or __Pareto Anywhere__.  Or visit our [HPE Aruba Networking integration](https://www.reelyactive.com/pareto/anywhere/infrastructure/aruba/) page to learn about alternative configurations such as Aruba IoT Transport for Azure.
+Follow our step-by-step tutorial to get started with __barnowl-aruba__ or __Pareto Anywhere__: 
+- [Configure Aruba IoT Operations](https://reelyactive.github.io/diy/aruba-iotops-config/) _for AOS 10_
+- [Configure an Aruba Instant AP](https://reelyactive.github.io/diy/aruba-instant-config/) _for AOS 8_
+
+Visit our [HPE Aruba Networking integration](https://www.reelyactive.com/pareto/anywhere/infrastructure/aruba/) page to learn about alternative configurations such as Aruba IoT Transport for Azure.
 
 Learn "owl" about the __raddec__ JSON data output:
 -  [reelyActive Developer's Cheatsheet](https://reelyactive.github.io/diy/cheatsheet/)
