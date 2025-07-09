@@ -1,7 +1,7 @@
 barnowl-aruba
 =============
 
-__barnowl-aruba__ converts the decodings of _any_ ambient Bluetooth Low Energy & EnOcean Alliance devices by [Aruba Networks](https://www.arubanetworks.com/) access points into standard developer-friendly JSON that is vendor/technology/application-agnostic.
+__barnowl-aruba__ converts the decodings of _any_ ambient Bluetooth Low Energy & EnOcean Alliance devices by [HPE Aruba Networking](https://arubanetworking.hpe.com/) access points into standard developer-friendly JSON that is vendor/technology/application-agnostic.
 
 ![Overview of barnowl-aruba](https://reelyactive.github.io/barnowl-aruba/images/overview.png)
 
