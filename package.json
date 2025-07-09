@@ -5,7 +5,7 @@
     "name": "reelyActive",
     "email": "info@reelyactive.com"
   },
-  "description": "Collect ambient Bluetooth Low Energy, WiFi and EnOcean Alliance packets from Aruba access points for real-time location and sensing.  We believe in an open Internet of Things.",
+  "description": "Collect ambient Bluetooth Low Energy, WiFi and EnOcean Alliance packets from HPE Aruba Networking access points for real-time location and sensing.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
     "barnowl",
@@ -14,7 +14,7 @@
     "WebSocket",
     "raddec"
   ],
-  "version": "1.6.2",
+  "version": "1.7.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -34,7 +34,7 @@
     "advlib-identifier": ">=0.1.0",
     "protobufjs": "^7.5.3",
     "raddec": ">=0.6.1",
-    "ws": "^8.18.2"
+    "ws": "^8.18.3"
   },
   "devDependencies": {},
   "bugs": {
