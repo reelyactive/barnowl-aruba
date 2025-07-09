@@ -148,6 +148,8 @@ __barnowl-aruba__ supports the following Transport Services:
 ### AOS10
 
 - BLE Data
+- Serial Data
+  - EnOcean Serial Protocol (requires USB dongle)
 
 
 Southbound Interface
