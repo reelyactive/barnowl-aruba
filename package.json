@@ -14,7 +14,7 @@
     "WebSocket",
     "raddec"
   ],
-  "version": "1.7.0",
+  "version": "1.7.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "advlib-identifier": ">=0.1.0",
-    "protobufjs": "^7.5.3",
+    "protobufjs": "^7.5.4",
     "raddec": ">=0.6.1",
     "ws": "^8.18.3"
   },
