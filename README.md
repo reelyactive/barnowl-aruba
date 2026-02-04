@@ -286,9 +286,9 @@ Aruba IoT Transport encodes data using [Protocol Buffers](https://protobuf.dev/)
 
 The AOS 8 and AOS 10 proto definitions are already compiled and bundled in this repository in the /lib folder.  An automated procedure for updating these bundles, _should new versions of the proto definitions be released,_ is documented below.
 
-Compiling the proto definitions into a JavaScript bundle requires __pbjs__ from the [protobuf-cli](https://www.npmjs.com/package/protobufjs-cli), which must first be installed as follows:
+Compiling the proto definitions into a JavaScript bundle requires __pbjs__ from the [protobufjs-cli](https://www.npmjs.com/package/protobufjs-cli), which must first be installed as follows:
 
-    npm install -g protobuf-cli
+    npm install -g protobufjs-cli
 
 ### AOS 8 protobuf
 
